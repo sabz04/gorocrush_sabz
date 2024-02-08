@@ -22,56 +22,49 @@ class InfoCard extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Stack(
-          children: [
-            Container(
-              width: 300,
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height - 350,
-              ),
-              decoration: BoxDecoration(
-                  color: const Color(0xfff288e8),
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: const Color(0xfff2c7ee), width: 3)),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: RawScrollbar(
-                controller: _scrollController,
-                thumbVisibility: true,
-                trackVisibility: true,
-                thumbColor: const Color(0xfff2c7ee).withOpacity(0.5),
-                trackColor: const Color(0xfff2c7ee).withOpacity(0.2),
-                thickness: 3,
-                padding: const EdgeInsets.only(right: -5),
-                child: ScrollConfiguration(
-                  behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+        Container(
+          width: 300,
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height - 200,
+          ),
+          decoration: BoxDecoration(
+              color: const Color(0xfff288e8),
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: const Color(0xfff2c7ee), width: 3)),
+          child: Stack(
+            children: [
+              Positioned(
+                  right: 10,
+                  top: 5,
+                  child: Opacity(
+                      opacity: 0.5,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          info.asset,
+                          height: 50,
+                        ),
+                      ))),
+              ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        child: Text(
                           info.caption,
                           style: const TextStyle(fontSize: 24, fontFamily: 'Ubuntu', fontWeight: FontWeight.w500, color: Colors.white),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-            Positioned(
-                right: 10,
-                top: 5,
-                child: Opacity(
-                    opacity: 0.7,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        info.asset,
-                        height: 50,
-                      ),
-                    ))),
-          ],
+            ],
+          ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 13),

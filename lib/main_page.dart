@@ -21,11 +21,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   bool _mShowNegative = true;
 
-  int _mView = 0;
+  int _mView = 2;
 
-  int _mSelectedInfoData = 0;
+  int _mSelectedInfoData = 7;
 
-  List<String> _mCatsData = [
+  final List<String> _mCatsData = [
     'assets/gifs_array/cat_0.gif',
     'assets/gifs_array/cat_1.gif',
     'assets/gifs_array/cat_2.gif',
@@ -38,7 +38,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   ];
 
   List<Info> _mInfoData = [];
-  List<Info> _mInfoDataAutoList = [];
 
   late final _mController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500))..forward();
   late final _mDoubleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: _mController, curve: Curves.easeOut));
@@ -48,9 +47,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   ).animate(CurvedAnimation(parent: _mController, curve: Curves.easeOut));
 
   var _mScrollController = ScrollController();
-
-  double _mScrollOffset = 0;
-  double _mPerOffset = 5;
 
   @override
   void initState() {
@@ -109,138 +105,131 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       backgroundColor: Color(0xff9c6096),
       body: Stack(
         children: [
-          Column(
-            children: [
-              Container(
-                color: Colors.transparent,
-                height: 60,
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child:
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "06.02.2024",
-                          textDirection: TextDirection.ltr,
-                          style: TextStyle(fontSize: 25, fontFamily: 'Ubuntu', fontWeight: FontWeight.w500, color: Colors.white),
+          Container(
+            padding: EdgeInsets.all(_mView == 3 ? 10 : 50),
+            child: Center(
+              child: SlideTransition(
+                position: _mOffsetAnimation,
+                child: FadeTransition(
+                  opacity: _mDoubleAnimation,
+                  child: Stack(
+                    children: [
+                      if (_mView == 0)
+                        MainCard(
+                          isNegativeVisible: _mShowNegative,
+                          onTapNegative: () {
+                            switchView(
+                                index: 1,
+                                onComplete: () {
+                                  _mShowNegative = false;
+                                  Future.delayed(
+                                    const Duration(milliseconds: 1500),
+                                        () {
+                                      switchView(index: 0);
+                                    },
+                                  );
+                                });
+                          },
+                          onTapPositive: () {
+                            switchView(index: 2);
+                          },
                         ),
-                        const SizedBox(width: 10,),
+                      if (_mView == 1)
                         ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.asset('assets/cute_cat_roses.jpg', height: 40,))
-                      ],
-                    ),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 250),
-                      transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child,),
-                      child: _mView == 3 ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CuteButton(caption: 'В начало!', fontSize: 20, onTap: (){
-                            switchView(index: 0, onComplete: (){
-                              _mShowNegative = true;
-                              _mSelectedInfoData = 0;
-                            });
-                          }),
-                        ],
-                      ) : const SizedBox.shrink(),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(_mView == 3 ? 10 : 50),
-                  child: Center(
-                    child: SlideTransition(
-                      position: _mOffsetAnimation,
-                      child: FadeTransition(
-                        opacity: _mDoubleAnimation,
-                        child: Stack(
-                          children: [
-                            if (_mView == 0)
-                              MainCard(
-                                isNegativeVisible: _mShowNegative,
-                                onTapNegative: () {
-                                  switchView(
-                                      index: 1,
-                                      onComplete: () {
-                                        _mShowNegative = false;
-                                        Future.delayed(
-                                          const Duration(milliseconds: 1500),
-                                              () {
-                                            switchView(index: 0);
-                                          },
-                                        );
-                                      });
-                                },
-                                onTapPositive: () {
-                                  switchView(index: 2);
-                                },
-                              ),
-                            if (_mView == 1)
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(24),
-                                child: Image.asset(
-                                  "assets/gif/cute_cat_angry_3.gif",
-                                  height: 150,
-                                ),
-                              ),
-                            if (_mView == 2)
-                              InfoCard(
-                                info: _mInfoData[_mSelectedInfoData],
-                                currentIndex: _mSelectedInfoData,
-                                totalCount: _mInfoData.length,
-                                onPrevPage: () {
-                                  switchView(
-                                      index: 2,
-                                      onComplete: () {
-                                        _mSelectedInfoData--;
-                                        setState(() {});
-                                      });
-                                },
-                                onNextPage: () {
-                                  switchView(
-                                      index: 2,
-                                      onComplete: () {
-                                        _mSelectedInfoData++;
-                                        if (_mSelectedInfoData >= _mInfoData.length) {
-                                          _mSelectedInfoData = _mInfoData.length - 1;
-                                          switchView(index: 3);
-                                        }
-                                        setState(() {});
-                                      });
-                                },
-                              ),
-                            if (_mView == 3)
-                              Container(
-                                color: Colors.transparent,
-                                child: ListView.builder(
-                                  itemCount: _mInfoData.length,
-                                  scrollDirection: Axis.horizontal,
-                                  controller: _mScrollController,
-                                  itemBuilder: (context, index) => Padding(
-                                      padding: EdgeInsets.only(right: index == _mInfoData.length - 1 ? 0 : 10),
-                                      child: InfoListCard(info: _mInfoData[index])),
-                                ),
-                              )
-                          ],
+                          borderRadius: BorderRadius.circular(24),
+                          child: Image.asset(
+                            "assets/gif/cute_cat_angry_3.gif",
+                            height: 150,
+                          ),
                         ),
-                      ),
-                    ),
+                      if (_mView == 2)
+                        InfoCard(
+                          info: _mInfoData[_mSelectedInfoData],
+                          currentIndex: _mSelectedInfoData,
+                          totalCount: _mInfoData.length,
+                          onPrevPage: () {
+                            switchView(
+                                index: 2,
+                                onComplete: () {
+                                  _mSelectedInfoData--;
+                                  setState(() {});
+                                });
+                          },
+                          onNextPage: () {
+                            switchView(
+                                index: 2,
+                                onComplete: () {
+                                  _mSelectedInfoData++;
+                                  if (_mSelectedInfoData >= _mInfoData.length) {
+                                    _mSelectedInfoData = _mInfoData.length - 1;
+                                    switchView(index: 3);
+                                  }
+                                  setState(() {});
+                                });
+                          },
+                        ),
+                      if (_mView == 3)
+                        Container(
+                          color: Colors.transparent,
+                          child: ListView.builder(
+                            itemCount: _mInfoData.length,
+                            scrollDirection: Axis.horizontal,
+                            controller: _mScrollController,
+                            itemBuilder: (context, index) => Padding(
+                                padding: EdgeInsets.only(right: index == _mInfoData.length - 1 ? 0 : 10),
+                                child: InfoListCard(info: _mInfoData[index])),
+                          ),
+                        )
+                    ],
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 60,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-              ),
-            ],
+            ),
+          ),
+          Container(
+            color: Colors.transparent,
+            height: 100,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child:
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child,),
+                  child: _mView == 0 ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "06.02.2024",
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(fontSize: 25, fontFamily: 'Ubuntu', fontWeight: FontWeight.w500, color: Colors.white),
+                      ),
+                      const SizedBox(width: 10,),
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset('assets/cute_cat_roses.jpg', height: 40,))
+                    ],
+                  ) : const SizedBox.shrink(),
+                ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child,),
+                  child: _mView == 3 ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CuteButton(caption: 'В начало!', fontSize: 20, onTap: (){
+                        switchView(index: 0, onComplete: (){
+                          _mShowNegative = true;
+                          _mSelectedInfoData = 0;
+                        });
+                      }),
+                    ],
+                  ) : const SizedBox.shrink(),
+                ),
+              ],
+            ),
           ),
 
         ],
