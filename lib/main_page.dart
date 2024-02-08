@@ -90,11 +90,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     });
 
     if (index == 3) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        _mScrollController.animateTo(_mScrollController.position.maxScrollExtent, duration: const Duration(seconds: 50), curve: Curves.linear).whenComplete(() {
-          _mScrollController.animateTo(_mScrollController.position.minScrollExtent, duration: const Duration(seconds: 50), curve: Curves.linear);
+      try{
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          _mScrollController.animateTo(_mScrollController.position.maxScrollExtent, duration: const Duration(seconds: 50), curve: Curves.linear).whenComplete(() {
+            _mScrollController.animateTo(_mScrollController.position.minScrollExtent, duration: const Duration(seconds: 50), curve: Curves.linear);
+          });
         });
-      });
+      }catch(ex){print(ex.toString());}
+
     }
   }
 
