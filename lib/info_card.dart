@@ -27,7 +27,7 @@ class InfoCard extends StatelessWidget {
             Container(
               width: 300,
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height - 200,
+                maxHeight: MediaQuery.of(context).size.height - 350,
               ),
               decoration: BoxDecoration(
                   color: const Color(0xfff288e8),

@@ -106,98 +106,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color(0xff9c6096),
       body: Stack(
         children: [
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            color: Color(0xff9c6096),
-            padding: EdgeInsets.all(_mView == 3 ? 10 : 50),
-            child: Center(
-              child: SlideTransition(
-                position: _mOffsetAnimation,
-                child: FadeTransition(
-                  opacity: _mDoubleAnimation,
-                  child: Stack(
-                    children: [
-                      if (_mView == 0)
-                        MainCard(
-                          isNegativeVisible: _mShowNegative,
-                          onTapNegative: () {
-                            switchView(
-                                index: 1,
-                                onComplete: () {
-                                  _mShowNegative = false;
-                                  Future.delayed(
-                                    const Duration(milliseconds: 1500),
-                                    () {
-                                      switchView(index: 0);
-                                    },
-                                  );
-                                });
-                          },
-                          onTapPositive: () {
-                            switchView(index: 2);
-                          },
-                        ),
-                      if (_mView == 1)
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
-                          child: Image.asset(
-                            "assets/gif/cute_cat_angry_3.gif",
-                            height: 150,
-                          ),
-                        ),
-                      if (_mView == 2)
-                        InfoCard(
-                          info: _mInfoData[_mSelectedInfoData],
-                          currentIndex: _mSelectedInfoData,
-                          totalCount: _mInfoData.length,
-                          onPrevPage: () {
-                            switchView(
-                                index: 2,
-                                onComplete: () {
-                                  _mSelectedInfoData--;
-                                  setState(() {});
-                                });
-                          },
-                          onNextPage: () {
-                            switchView(
-                                index: 2,
-                                onComplete: () {
-                                  _mSelectedInfoData++;
-                                  if (_mSelectedInfoData >= _mInfoData.length) {
-                                    _mSelectedInfoData = _mInfoData.length - 1;
-                                    switchView(index: 3);
-                                  }
-                                  setState(() {});
-                                });
-                          },
-                        ),
-                      if (_mView == 3)
-                        Container(
-                          color: Colors.transparent,
-                          child: ListView.builder(
-                            itemCount: _mInfoData.length,
-                            scrollDirection: Axis.horizontal,
-                            controller: _mScrollController,
-                            itemBuilder: (context, index) => Padding(
-                                padding: EdgeInsets.only(right: index == _mInfoData.length - 1 ? 0 : 10),
-                                child: InfoListCard(info: _mInfoData[index])),
-                          ),
-                        )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
           Column(
             children: [
               Container(
                 color: Colors.transparent,
-                height: 100,
+                height: 80,
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child:
                 Row(
@@ -232,7 +148,95 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-              )
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(_mView == 3 ? 10 : 50),
+                  child: Center(
+                    child: SlideTransition(
+                      position: _mOffsetAnimation,
+                      child: FadeTransition(
+                        opacity: _mDoubleAnimation,
+                        child: Stack(
+                          children: [
+                            if (_mView == 0)
+                              MainCard(
+                                isNegativeVisible: _mShowNegative,
+                                onTapNegative: () {
+                                  switchView(
+                                      index: 1,
+                                      onComplete: () {
+                                        _mShowNegative = false;
+                                        Future.delayed(
+                                          const Duration(milliseconds: 1500),
+                                              () {
+                                            switchView(index: 0);
+                                          },
+                                        );
+                                      });
+                                },
+                                onTapPositive: () {
+                                  switchView(index: 2);
+                                },
+                              ),
+                            if (_mView == 1)
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(24),
+                                child: Image.asset(
+                                  "assets/gif/cute_cat_angry_3.gif",
+                                  height: 150,
+                                ),
+                              ),
+                            if (_mView == 2)
+                              InfoCard(
+                                info: _mInfoData[_mSelectedInfoData],
+                                currentIndex: _mSelectedInfoData,
+                                totalCount: _mInfoData.length,
+                                onPrevPage: () {
+                                  switchView(
+                                      index: 2,
+                                      onComplete: () {
+                                        _mSelectedInfoData--;
+                                        setState(() {});
+                                      });
+                                },
+                                onNextPage: () {
+                                  switchView(
+                                      index: 2,
+                                      onComplete: () {
+                                        _mSelectedInfoData++;
+                                        if (_mSelectedInfoData >= _mInfoData.length) {
+                                          _mSelectedInfoData = _mInfoData.length - 1;
+                                          switchView(index: 3);
+                                        }
+                                        setState(() {});
+                                      });
+                                },
+                              ),
+                            if (_mView == 3)
+                              Container(
+                                color: Colors.transparent,
+                                child: ListView.builder(
+                                  itemCount: _mInfoData.length,
+                                  scrollDirection: Axis.horizontal,
+                                  controller: _mScrollController,
+                                  itemBuilder: (context, index) => Padding(
+                                      padding: EdgeInsets.only(right: index == _mInfoData.length - 1 ? 0 : 10),
+                                      child: InfoListCard(info: _mInfoData[index])),
+                                ),
+                              )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                color: Colors.transparent,
+                height: 80,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+              ),
             ],
           ),
 
