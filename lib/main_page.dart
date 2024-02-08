@@ -113,7 +113,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             children: [
               Container(
                 color: Colors.transparent,
-                height: 80,
+                height: 60,
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child:
                 Row(
@@ -129,7 +129,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 25, fontFamily: 'Ubuntu', fontWeight: FontWeight.w500, color: Colors.white),
                         ),
                         const SizedBox(width: 10,),
-                        Image.asset('assets/gifs_array/cat_1.gif', height: 40,)
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.asset('assets/cute_cat_roses.jpg', height: 40,))
                       ],
                     ),
                     AnimatedSwitcher(
@@ -140,6 +142,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         children: [
                           CuteButton(caption: 'В начало!', fontSize: 20, onTap: (){
                             switchView(index: 0, onComplete: (){
+                              _mShowNegative = true;
                               _mSelectedInfoData = 0;
                             });
                           }),
@@ -234,7 +237,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               ),
               Container(
                 color: Colors.transparent,
-                height: 80,
+                height: 60,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
               ),
             ],
