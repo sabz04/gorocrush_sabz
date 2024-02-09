@@ -16,9 +16,6 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final _scrollController = ScrollController();
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -48,7 +45,6 @@ class InfoCard extends StatelessWidget {
               ScrollConfiguration(
                 behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
                 child: SingleChildScrollView(
-                  controller: _scrollController,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

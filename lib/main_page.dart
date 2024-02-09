@@ -22,9 +22,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   bool _mShowNegative = true;
 
-  int _mView = 0;
+  int _mView = 3;
 
-  int _mSelectedInfoData = 0;
+  int _mSelectedInfoData = 8;
 
   final List<String> _mCatsData = [
     'assets/gifs_array/cat_0.gif',
