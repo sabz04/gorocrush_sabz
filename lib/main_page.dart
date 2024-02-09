@@ -8,6 +8,7 @@ import 'package:untitled/info_card.dart';
 import 'package:untitled/info_list_card.dart';
 import 'package:untitled/lera_button.dart';
 import 'package:untitled/main_card.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'info_object.dart';
 
@@ -21,9 +22,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   bool _mShowNegative = true;
 
-  int _mView = 2;
+  int _mView = 0;
 
-  int _mSelectedInfoData = 7;
+  int _mSelectedInfoData = 0;
 
   final List<String> _mCatsData = [
     'assets/gifs_array/cat_0.gif',
@@ -50,19 +51,18 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    startPlayer();
     _mInfoData = [
       Info(
           caption:
               'Привет, дорогуша! Я сделал этот небольшой сайтик для тебя, ведь я не умею шить, но тоже хочу сделать что-то красивое! Спасибо тебе за котика, он мне так понравился! (попка ваще огонь)',
           asset: _mCatsData[1]),
       Info(
-          caption: 'Этот мини-сайтик - тебе! Я полностью понимаю и принимаю твои старания, вижу, как ты пытаешься достичь своего, ты умничка!!',
-          asset: _mCatsData[0]),
-      Info(
           caption: 'Постарайся побольше думать о существенном и поменьше стрессовать, переживаниями о завтрашнем дне сделаешь хуже только текущему!',
           asset: _mCatsData[2]),
       Info(caption: 'Я в тебя верю, Лера! Ты открыла мне новый мир комфорта!', asset: _mCatsData[3]),
-      Info(caption: 'У тебя все получится! Мы справимся со всем вместе!', asset: _mCatsData[5]),
+      Info(caption: 'У тебя все получится, ты умница! Даже если чувствуешь, что где-то что-то может пойти не так, то это нормально! '
+          'На этих ошибках мы учимся, становимся сильнее, идем по тропе жизни. Помни, что ты не одна, мы справимся со всем вместе!', asset: _mCatsData[5]),
       Info(
           caption: 'Я всегда открыт\nдля тебя и готов выслушать и поддержать, мы всегда можем обменяться советами друг с другом!',
           asset: _mCatsData[7]),
@@ -72,15 +72,17 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           asset: _mCatsData[8]),
       Info(
           caption:
-              'Да, какие-то проблемы неописуемо тяжки и могут сильно давить, но я уверен, что все решаемо и реализуемо через адекватное рассуждение обоих сторон! Если человек дорожит этим - он будет открыт к решению проблемы',
+              'Да, какие-то проблемы неописуемо тяжки и могут сильно давить, но я уверен, что все решаемо через адекватное рассуждение обоих сторон! Если человек дорожит этим - он будет открыт к решению проблемы',
           asset: _mCatsData[0]),
-      Info(caption: 'Лер, лю тя!', asset: _mCatsData[1]),
+      Info(
+          caption: 'Давай просто быть друг у друга, поддерживать, разделять моменты жизни, делиться всем! Особенно, ценить взаимопонимание',
+          asset: _mCatsData[0]),
+      Info(caption: 'Лер, так дорожу тобой! Я вижу в тебе ответственного и приятного человека, который умеет стараться, не покладая рук. Лю!', asset: _mCatsData[1]),
     ];
     super.initState();
   }
 
   void switchView({required int index, Function? onComplete}) {
-
 
     _mController.reverse().whenComplete(() {
       _mView = index;
@@ -101,6 +103,13 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     }
   }
 
+
+  @override
+  void dispose() {
+    _mController.dispose();
+    _mScrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,5 +247,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  void startPlayer() async {
+   /*final player = AudioPlayer();
+    await player.play(AssetSource('assets/sounds/sound.mp3'));*/
   }
 }

@@ -38,6 +38,7 @@ dependencies:
   auto_scroll: ^0.2.0
   scroll_loop_auto_scroll: ^0.0.5
   flutter_staggered_grid_view: ^0.7.0
+  audioplayers: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
     - assets/
     - assets/gif/
     - assets/gifs_array/
+    - assets/sounds/
     - fonts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
