@@ -26,6 +26,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   int _mSelectedInfoData = 0;
 
+  
   final List<String> _mCatsData = [
     'assets/gifs_array/cat_0.gif',
     'assets/gifs_array/cat_1.gif',
